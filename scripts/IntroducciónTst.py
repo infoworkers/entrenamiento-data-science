@@ -12,9 +12,9 @@
 
 # COMMAND ----------
 
-storage_account_name = "databricksiw"
-storage_account_access_key = "BYFafvUq0A10FIUWBk5nLTyV8rt4tLBDX3aO5dpyCr3eyJ+gJ1p2v0tQgpaCQ5wFA5U8v7pzh9bvK/TDaWeIxg=="
-contenedor = "democontenedor"
+storage_account_name = "<cuenta de almacenamiento>"
+storage_account_access_key = "<Llave>"
+contenedor = "<Contenedor>"
 spark.conf.set(
   "fs.azure.account.key."+storage_account_name+".blob.core.windows.net",
   storage_account_access_key)
