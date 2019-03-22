@@ -5,10 +5,10 @@
 # COMMAND ----------
 
 dbutils.fs.mount(
-  source = "wasbs://databricks@databricksiw.blob.core.windows.net/",
-  mount_point = "/mnt/misdatos",
-  extra_configs = {"fs.azure.account.key.databricksiw.blob.core.windows.net":"BYFafvUq0A10FIUWBk5nLTyV8rt4tLBDX3aO5dpyCr3eyJ+gJ1p2v0tQgpaCQ5wFA5U8v7pzh9bvK/TDaWeIxg=="})
+  source = "wasbs://<contenedor>@<almacenamiento>.blob.core.windows.net/",
+  mount_point = "/mnt/<sucarpeta>",
+  extra_configs = {"fs.azure.account.key.<almacenamiento>.blob.core.windows.net":"<llave>"})
 
 # COMMAND ----------
 
-dbutils.fs.ls("/mnt/misdatos")
+dbutils.fs.ls("/mnt/<sucarpeta>")
