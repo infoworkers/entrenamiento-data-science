@@ -27,7 +27,7 @@ spark.conf.set(
 # COMMAND ----------
 
 #https://www.datos.gov.co/Estad-sticas-Nacionales/Cifras-preliminares-Muertes-violentas-seg-n-grupo-/68xb-xdyk
-file_location = "wasbs://"+contenedor+"@"+storage_account_name+".blob.core.windows.net/MuertesViolentas.csv"
+file_location = "wasbs://"+contenedor+"@"+storage_account_name+".blob.core.windows.net/datosejemplo.csv"
 file_type = "csv"
 
 # COMMAND ----------
@@ -72,13 +72,13 @@ pd_df
 
 # COMMAND ----------
 
-df.createOrReplaceTempView("MuertesViolentas")
+df.createOrReplaceTempView("Tabla")
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC select * from MuertesViolentas
-# MAGIC where manera_de_muerte <> 'Total'
+# MAGIC select * from tabla
+# MAGIC where grupo_de_edad <> 'Total'
 
 # COMMAND ----------
 
@@ -87,4 +87,16 @@ df.createOrReplaceTempView("MuertesViolentas")
 
 # COMMAND ----------
 
-df.write.format("parquet").saveAsTable("MuertesViolentas")
+df.write.format("parquet").saveAsTable("John")
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC select * from john
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ####Lab
+# MAGIC Ahora hagan una tabla que traiga los datos de esta fuente
+# MAGIC http://datosabiertos.bogota.gov.co/dataset/para-modificar/resource/30d65a8b-d0ed-4e95-977e-0d7cc2ea89ef
