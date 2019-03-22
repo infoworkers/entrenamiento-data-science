@@ -1,0 +1,54 @@
+{
+	"name": "SourceDataset_vyz",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FuenteHTTP",
+			"type": "LinkedServiceReference"
+		},
+		"type": "HttpFile",
+		"structure": [
+			{
+				"name": "hombre_2018",
+				"type": "String"
+			},
+			{
+				"name": "hombre_2019",
+				"type": "String"
+			},
+			{
+				"name": "manera_de_muerte",
+				"type": "String"
+			},
+			{
+				"name": "mujer_2018",
+				"type": "String"
+			},
+			{
+				"name": "mujer_2019",
+				"type": "String"
+			},
+			{
+				"name": "total_2018",
+				"type": "String"
+			},
+			{
+				"name": "total_2019",
+				"type": "String"
+			}
+		],
+		"typeProperties": {
+			"format": {
+				"type": "TextFormat",
+				"columnDelimiter": ",",
+				"rowDelimiter": "",
+				"quoteChar": "\"",
+				"nullValue": "\\N",
+				"treatEmptyAsNull": true,
+				"skipLineCount": 0,
+				"firstRowAsHeader": true
+			},
+			"requestMethod": "GET"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,25 @@
+{
+	"name": "DestinationDataset_8rp",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinoBlob",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureBlob",
+		"typeProperties": {
+			"format": {
+				"type": "TextFormat",
+				"columnDelimiter": ";",
+				"rowDelimiter": "",
+				"nullValue": "\\N",
+				"encodingName": "Windows-1252",
+				"treatEmptyAsNull": true,
+				"skipLineCount": 0,
+				"firstRowAsHeader": true
+			},
+			"fileName": "LlamadasC4.csv",
+			"folderPath": "databricks"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

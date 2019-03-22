@@ -1,0 +1,11 @@
+{
+	"name": "FuenteOdata",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "OData",
+		"typeProperties": {
+			"url": "https://www.datos.gov.co/OData.svc/3s6z-vvvc",
+			"authenticationType": "Anonymous"
+		}
+	}
+}

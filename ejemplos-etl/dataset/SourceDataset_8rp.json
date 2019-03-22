@@ -1,0 +1,58 @@
+{
+	"name": "SourceDataset_8rp",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FuenteDatosBogota",
+			"type": "LinkedServiceReference"
+		},
+		"type": "HttpFile",
+		"structure": [
+			{
+				"name": "ID",
+				"type": "String"
+			},
+			{
+				"name": "ANIO",
+				"type": "String"
+			},
+			{
+				"name": "MES",
+				"type": "String"
+			},
+			{
+				"name": "COD_LOCALIDAD",
+				"type": "String"
+			},
+			{
+				"name": "LOCALIDAD",
+				"type": "String"
+			},
+			{
+				"name": "COD_INCIDENTE",
+				"type": "String"
+			},
+			{
+				"name": "INCIDENTE",
+				"type": "String"
+			},
+			{
+				"name": "CANT_INCIDENTES",
+				"type": "String"
+			}
+		],
+		"typeProperties": {
+			"format": {
+				"type": "TextFormat",
+				"columnDelimiter": ";",
+				"rowDelimiter": "",
+				"nullValue": "\\N",
+				"encodingName": "Windows-1252",
+				"treatEmptyAsNull": true,
+				"skipLineCount": 0,
+				"firstRowAsHeader": true
+			},
+			"requestMethod": "GET"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

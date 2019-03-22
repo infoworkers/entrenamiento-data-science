@@ -1,0 +1,25 @@
+{
+	"name": "DestinationDataset_vyz",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinoBlob",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureBlob",
+		"typeProperties": {
+			"format": {
+				"type": "TextFormat",
+				"columnDelimiter": ",",
+				"rowDelimiter": "",
+				"quoteChar": "\"",
+				"nullValue": "\\N",
+				"treatEmptyAsNull": true,
+				"skipLineCount": 0,
+				"firstRowAsHeader": true
+			},
+			"fileName": "MuertesViolentas.csv",
+			"folderPath": "databricks"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
