@@ -1,0 +1,22 @@
+{
+	"name": "LlamadasC4",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Fuente",
+			"type": "LinkedServiceReference"
+		},
+		"type": "HttpFile",
+		"typeProperties": {
+			"format": {
+				"type": "TextFormat",
+				"columnDelimiter": ",",
+				"rowDelimiter": "",
+				"nullValue": "\\N",
+				"treatEmptyAsNull": true,
+				"skipLineCount": 0,
+				"firstRowAsHeader": false
+			},
+			"requestMethod": "GET"
+		}
+	}
+}
