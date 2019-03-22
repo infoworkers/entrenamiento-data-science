@@ -13,8 +13,8 @@
 # COMMAND ----------
 
 storage_account_name = "databricksiw"
-storage_account_access_key = "XTwGvPpENbQyYHtFpFQRuFdqZshKc8rcYmUnEtjaUVzpUBDw+2odX0lMXx8cTj8MzbynLwRaqGR4DUwvKFe2Mw=="
-contenedor = "databricks"
+storage_account_access_key = "BYFafvUq0A10FIUWBk5nLTyV8rt4tLBDX3aO5dpyCr3eyJ+gJ1p2v0tQgpaCQ5wFA5U8v7pzh9bvK/TDaWeIxg=="
+contenedor = "democontenedor"
 spark.conf.set(
   "fs.azure.account.key."+storage_account_name+".blob.core.windows.net",
   storage_account_access_key)
@@ -26,6 +26,7 @@ spark.conf.set(
 
 # COMMAND ----------
 
+#https://www.datos.gov.co/Estad-sticas-Nacionales/Cifras-preliminares-Muertes-violentas-seg-n-grupo-/68xb-xdyk
 file_location = "wasbs://"+contenedor+"@"+storage_account_name+".blob.core.windows.net/MuertesViolentas.csv"
 file_type = "csv"
 
