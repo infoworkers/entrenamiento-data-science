@@ -1,0 +1,151 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "defaultValue": "East US 2",
+            "type": "String"
+        },
+        "workspaceName": {
+            "defaultValue": "databricks",
+            "type": "String"
+        },
+        "tier": {
+            "defaultValue": "premium",
+            "type": "String"
+        },
+        "prmStorage": {
+            "type": "string",
+            "defaultValue": "Premium_LRS",
+            "allowedValues": [
+                "Standard_LRS",
+                "Standard_ZRS",
+                "Standard_GRS",
+                "Standard_RAGRS",
+                "Premium_LRS"
+            ]
+        },
+        "sqlserverAdminLogin": {
+            "type": "string",
+            "minLength": 1
+        },
+        "sqlserverAdminLoginPassword": {
+            "type": "securestring"
+        },
+        "bdEjemploName": {
+            "type": "string",
+            "minLength": 1
+        },
+        "bdEjemploCollation": {
+            "type": "string",
+            "minLength": 1,
+            "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
+        },
+        "bdEjemploEdition": {
+            "type": "string",
+            "defaultValue": "Premium",
+            "allowedValues": [
+                "Basic",
+                "Standard",
+                "Premium"
+            ]
+        },
+        "bdEjemploRequestedServiceObjectiveName": {
+            "type": "string",
+            "defaultValue": "P2",
+            "allowedValues": [
+                "Basic",
+                "S0",
+                "S1",
+                "S2",
+                "P1",
+                "P2",
+                "P3"
+            ],
+            "metadata": {
+                "description": "Define el rendimiento de la base de datos"
+            }
+        }
+    },
+    "variables": {
+        "managedResourceGroupId": "[concat(subscription().id, '/resourceGroups/', variables('managedResourceGroupName'))]",
+        "managedResourceGroupName": "[concat('databricks-rg-', parameters('workspaceName'), '-', uniqueString(parameters('workspaceName'), resourceGroup().id))]",
+        "prmStorageName": "[concat('stgiw', uniqueString(resourceGroup().id))]",
+        "sqlserverName": "[concat('sqlserver', uniqueString(resourceGroup().id))]",
+        "fullyQualifiedbdEjemploName": "[concat(variables('sqlserverName'), '/', parameters('bdEjemploName'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Databricks/workspaces",
+            "sku": {
+                "name": "[parameters('tier')]"
+            },
+            "name": "[parameters('workspaceName')]",
+            "apiVersion": "2018-04-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "ManagedResourceGroupId": "[variables('managedResourceGroupId')]"
+            }
+        },
+        {
+            "name": "[variables('prmStorageName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [],
+            "tags": {
+                "displayName": "Storage Databricks"
+            },
+            "properties": {
+                "accountType": "[parameters('prmStorage')]"
+            }
+        },
+        {
+            "name": "[variables('sqlserverName')]",
+            "type": "Microsoft.Sql/servers",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2014-04-01-preview",
+            "dependsOn": [],
+            "tags": {
+                "displayName": "sqlserver"
+            },
+            "properties": {
+                "administratorLogin": "[parameters('sqlserverAdminLogin')]",
+                "administratorLoginPassword": "[parameters('sqlserverAdminLoginPassword')]"
+            },
+            "resources": [
+                {
+                    "name": "AllowAllWindowsAzureIps",
+                    "type": "firewallrules",
+                    "location": "[resourceGroup().location]",
+                    "apiVersion": "2014-04-01-preview",
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', variables('sqlserverName'))]"
+                    ],
+                    "properties": {
+                        "startIpAddress": "0.0.0.0",
+                        "endIpAddress": "0.0.0.0"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "[variables('fullyQualifiedbdEjemploName')]",
+            "type": "Microsoft.Sql/servers/databases",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2014-04-01-preview",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', variables('sqlserverName'))]"
+            ],
+            "tags": {
+                "displayName": "bdEjemplo"
+            },
+            "properties": {
+                "collation": "[parameters('bdEjemploCollation')]",
+                "edition": "[parameters('bdEjemploEdition')]",
+                "maxSizeBytes": "1073741824",
+                "requestedServiceObjectiveName": "[parameters('bdEjemploRequestedServiceObjectiveName')]"
+            }
+        }
+    ]
+}
