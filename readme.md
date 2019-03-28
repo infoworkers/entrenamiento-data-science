@@ -7,3 +7,38 @@ Elementos necesarios para el taller
 3. Una cuenta de almacenamiento en Azure
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Finfoworkers%2Fentrenamiento-data-science%2Fmaster%2Farm%2Fcrear-databricks.json" target="_blank">Clic para desplegar a Azure</a>
+
+Siga los pasos para desplegar todo en Azure y espere a que esto termine, el proceso no tardará mas de unos minutos.
+
+#aqui va la imagen
+
+Vaya a su suscripción de Azure y abra el Shell de Azure (Otra imagen)
+
+Para habilitar el Azure DWH, en el shell copie y pegue el siguiente codigo
+```
+$GrupoDeRecursos = "<Grupo de recursos>"
+$Servidor = "<Nombre del servidor>"
+$NombreBD = "BDDataBricks"
+New-AzSqlDatabase -ResourceGroupName $GrupoDeRecursos -ServerName $Servidor -DatabaseName $NombreBD -Edition "DataWarehouse" -RequestedServiceObjectiveName "DW2000" -CollationName "SQL_Latin1_General_CP1_CI_AS" -MaxSizeBytes 10995116277760
+```
+Para habilitar el Datafactory
+```
+$dataFactory = "<Nombre del Data factory>"
+$localizacion = "East US 2"
+Set-AzDataFactoryV2 -ResourceGroupName $GrupoDeRecursos -Location $localizacion -Name $dataFactory
+```
+Ahora vamos a vincular nuestro almacenamiento
+```
+$json = "{
+    ""name"": ""AzureStorageLinkedService"",
+    ""properties"": {
+        ""type"": ""AzureStorage"",
+        ""typeProperties"": {
+            ""connectionString"": {
+                ""value"": ""DefaultEndpointsProtocol=https;AccountName=databricksiw;AccountKey=dv19hFVYbEPk3uZqgzpn2YTpSkfyH8Lza7wFJBPSW59EnkyuU6AvbD1x2TUgLiMUhJSbTmKFfMS5q6wpCyDbrw==;EndpointSuffix=core.windows.net"",
+                ""type"": ""SecureString""
+            }
+        }
+    }
+}"
+```
