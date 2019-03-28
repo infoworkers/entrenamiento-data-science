@@ -25,7 +25,7 @@ Para habilitar el Datafactory
 ```
 $dataFactory = "<Nombre del Data factory>"
 $localizacion = "East US 2"
-Set-AzDataFactoryV2 -ResourceGroupName $GrupoDeRecursos -Location $localizacion -Name $dataFactory
+$df = Set-AzDataFactoryV2 -ResourceGroupName $GrupoDeRecursos -Location $localizacion -Name $dataFactory
 ```
 Ahora vamos a vincular nuestro almacenamiento
 ```
@@ -35,10 +35,14 @@ $json = "{
         ""type"": ""AzureStorage"",
         ""typeProperties"": {
             ""connectionString"": {
-                ""value"": ""DefaultEndpointsProtocol=https;AccountName=databricksiw;AccountKey=dv19hFVYbEPk3uZqgzpn2YTpSkfyH8Lza7wFJBPSW59EnkyuU6AvbD1x2TUgLiMUhJSbTmKFfMS5q6wpCyDbrw==;EndpointSuffix=core.windows.net"",
+                ""value"": ""DefaultEndpointsProtocol=https;AccountName=<CUENTA>;AccountKey=<LLAVE>;EndpointSuffix=core.windows.net"",
                 ""type"": ""SecureString""
             }
         }
     }
 }"
+$cd = Get-CloudDrive
+$salida ="$($cd.MountPoint)/salida.json"
+$json | out-file $salida
+$ls = Set-AzDataFactoryV2LinkedService -DataFactoryName $df.DataFactoryName -ResourceGroupName $GrupoDeRecursos -Name "AzureStorageLinkedService" -DefinitionFile $salida
 ```
