@@ -46,3 +46,18 @@ $salida ="$($cd.MountPoint)/salida.json"
 $json | out-file $salida
 $ls = Set-AzDataFactoryV2LinkedService -DataFactoryName $df.DataFactoryName -ResourceGroupName $GrupoDeRecursos -Name "AzureStorageLinkedService" -DefinitionFile $salida
 ```
+Ahora vincularemos nuestro SQL DWH
+```
+$jsonSQL = "{
+	""name"": ""AzureSqlLinkedService"",
+	""properties"": {
+		""type"": ""AzureSqlDatabase"",
+		""typeProperties"": {
+			""connectionString"": ""Server=tcp:<server>.database.windows.net,1433;Database=<databasename>;User ID=<user>@<server>;Password=<password>;Trusted_Connection=False;Encrypt=True;Connection Timeout=30""
+		}
+	}
+ }"
+
+ $jsonSQL | out-file $salidaSQL
+ $lsSQL = Set-AzDataFactoryV2LinkedService -DataFactoryName $df.DataFactoryName -ResourceGroupName $GrupoDeRecursos -Name "AzureSqlLinkedService" -DefinitionFile $salidaSQL
+ ```
