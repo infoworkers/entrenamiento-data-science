@@ -5,6 +5,8 @@ Elementos necesarios para el taller
 1. Una instancia de Azure Databricks  
 2. Una instancia de SQL Server
 3. Una cuenta de almacenamiento en Azure
+4. Instalar Power BI Desktop. (https://powerbi.microsoft.com/es-es/desktop/?WT.mc_id=Blog_Desktop_Update)
+5. Instalar SSMS - Sql Server Management Studio. (https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-2017)
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Finfoworkers%2Fentrenamiento-data-science%2Fmaster%2Farm%2Fcrear-databricks.json" target="_blank">Clic para desplegar a Azure</a>
 
@@ -66,6 +68,7 @@ $jsonSQL = "{
 Realizar los pasos de la primera sesión para cargar la data de los siguientes links:
 
 https://www.datos.gov.co/Econom-a-y-Finanzas/DNP-SeguimientoProyecto/pskh-spdv
+
 https://www.datos.gov.co/Econom-a-y-Finanzas/DNP-proyectos_datos_basicos/cf9k-55fw
 
 1. Azure Blob Storage
@@ -95,12 +98,66 @@ NombrePlanDesarrollo nvarchar(3000)
 )
 ```
 
-#Consumir data desde Databricks
+# Consumir data desde Databricks
 
-## Conexión al DWH y Blob storage desde Databricks
-DWH:
-Verificar conexion al DWH
+## Conexión al Blob storage desde Databricks
+
+1. Crear conexión al storage.
+
 ```
-Class.forName("com.databricks.spark.sqldw.DefaultSource")
+storage_account_name = "<cuenta de almacenamiento>"
+storage_account_access_key = "<Llave>"
+contenedor = "<Contenedor>"
+spark.conf.set(
+  "fs.azure.account.key."+storage_account_name+".blob.core.windows.net",
+  storage_account_access_key)
 ```
+2. Cargue los archivos.
+
+```
+file_location = "wasbs://"+contenedor+"@"+storage_account_name+".blob.core.windows.net/<Nombre_archivo>"
+file_type = "csv"
+```
+
+3. Creemos un dataframe.
+```
+df = spark.read.format(file_type).option("inferSchema", "true").option("header", "true").load(file_location)
+```
+
+4. Conusltemos los datos cargados desde el databricks.
+```
+df
+import pandas as pd
+pd_df = df.toPandas()
+pd_df
+```
+5. Consultemos la tabla con usando SQL.
+```
+df.createOrReplaceTempView("<Nombre de la tabla>")
+
+%sql
+SELECT * FROM <Nombre de la tabla>
+```
+Probar otras consultas
+
+6. Guardar dentro de Databricks.
+```
+df.write.format("parquet").saveAsTable("<Nombre_Tabla>")
+```
+
+## Conectar desde Power BI (Visualización)
+### Databricks
+
+1. Habilitar en databricks la creación de personal access token.
+2. Crear access token.
+3. Identificar la cadena de conexión del Databricks con Power BI.
+4. Traer data a Power BI.
+
+### DWH
+1. Establecer conexión entre DWH y Power BI.
+2. Traer data a Power BI
+
+Realizar visualizaciones en Power BI
+
+
 
