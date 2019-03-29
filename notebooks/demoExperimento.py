@@ -24,10 +24,10 @@ mlflow.set_experiment("/Shared/MiExperimiento")
 # COMMAND ----------
 
 with mlflow.start_run() as run:
-  mlflow.log_param("param1", 5)
-  mlflow.log_metric("foo", 1)
-  mlflow.log_metric("foo", 2)
-  mlflow.log_metric("foo", 3)
+  mlflow.log_param("Parametro", 5)
+  mlflow.log_metric("dato", 1)
+  mlflow.log_metric("dato", 2)
+  mlflow.log_metric("dato", 3)
 with open("salida.txt", "w") as f:
     f.write("Hola mundo")
 mlflow.log_artifact("salida.txt")
